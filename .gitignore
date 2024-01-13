@@ -30,43 +30,172 @@ render.experimental.xml
 google-services.json
 
 # Android Profiling
-*.hprof
+*.hpro
+
+import random
+
+class Character:
+    def __init__(self, name, health, attack, defense):
+        self.name = name
+        self.health = health
+        self.attack = attack
+        self.defense = defense
+
+    def take_damage(self, damage):
+        self.health -= max(0, damage - self.defense)
+
+    def attack_enemy(self, enemy):
+        damage = random.randint(1, self.attack)
+        enemy.take_damage(damage)
+        return damage
+
+    def special_move(self, enemy):
+        return f"{self.name} performs a basic special move!"
+
 class Warrior(Character):
     def __init__(self, name):
         super().__init__(name, health=120, attack=25, defense=15)
 
-    def display_sprite(self):
-        return r"""
-        ⚔️ WARRIOR ⚔️
-        ヽ(＾Д＾)ﾉ
-        /     \
-        |  ●  ●  |
-        |   ∆    |
-        \______/
-        """
+    def special_move(self, enemy):
+        damage_multiplier = 2
+        special_damage = self.attack * damage_multiplier
+        enemy.take_damage(special_damage)
+
+        return f"{self.name} unleashes a powerful strike! {enemy.name} takes {special_damage} damage."
 
 class Mage(Character):
     def __init__(self, name):
         super().__init__(name, health=80, attack=30, defense=10)
 
-    def display_sprite(self):
-        return r"""
-        🧙 MAGE 🧙
-        (  ^_^)
-        /(     )\
-        (  ☄️ ☄️  )
-        \______/
-        """
+    def special_move(self, enemy):
+        heal_amount = 20
+        self.health += heal_amount
+
+        return f"{self.name} casts a healing spell and restores {heal_amount} health."
 
 class Archer(Character):
     def __init__(self, name):
         super().__init__(name, health=100, attack=20, defense=20)
 
-    def display_sprite(self):
-        return r"""
-        🏹 ARCHER 🏹
-        ＼(^o^)／
-        (   |   )
-        (  / \  )
-        \______/
-        """
+    def special_move(self, enemy):
+        critical_multiplier = 3
+        critical_damage = self.attack * critical_multiplier
+        enemy.take_damage(critical_damage)
+
+        return f"{self.name} lands a critical hit! {enemy.name} takes {critical_damage} damage."
+
+class Sniper(Character):
+    def __init__(self, name):
+        super().__init__(name, health=90, attack=35, defense=15)
+        self.precision = 25
+        self.pistol = True
+
+    def snipe(self, enemy):
+        snipe_chance = random.randint(1, 100)
+        if snipe_chance <= self.precision:
+            snipe_damage = self.attack * 4  # 4x damage on successful snipe
+            enemy.take_damage(snipe_damage)
+            return f"{self.name} takes a precise shot! {enemy.name} takes {snipe_damage} damage. {self.name} with pistol on the side."
+        else:
+            return f"{self.name} attempts to snipe, but misses the shot. {self.name} with pistol on the side."
+
+class Boss(Character):
+    def __init__(self, name, health, attack, defense, special_ability):
+        super().__init__(name, health, attack, defense)
+        self.special_ability = special_ability
+
+    def use_special_ability(self, enemy):
+        return f"{self.name} unleashes a powerful special ability! {self.special_ability} {enemy.name} takes damage."
+
+# Scratch Sheets
+scratch_sheets = """
+[=================]
+   Player Warrior
+- Health: 120
+- Attack: 25
+- Defense: 15
+   > Attack! <
+[=================]
+
+[=================]
+   Player Mage
+- Health: 80
+- Attack: 30
+- Defense: 10
+  * Cast Spell *
+[=================]
+
+[=================]
+   Player Archer
+- Health: 100
+- Attack: 20
+- Defense: 20
+  > Critical Hit! <
+[=================]
+
+[=================]
+   Player Sniper
+- Health: 90
+- Attack: 35
+- Defense: 15
+- Pistol: True
+  > Take a Shot! <
+[=================]
+
+[=================]
+   Evil Boss
+- Health: 200
+- Attack: 40
+- Defense: 25
+- Special Ability: Dark Fireball
+> Dark Fireball <
+[=================]
+"""
+
+# Animation
+animation = """
+[=================]
+   Player Warrior
+- Health: 120
+- Attack: 25
+- Defense: 15
+   > Attack! <
+[=================]
+    
+   ,  ,
+  (  )
+  (  )
+ _|  |_
+.' |  | '.
+(   ) (   )
+ '-._^_,-'
+    |||
+    |||
+    |||
+    |||
+    |||
+    |||
+    |||
+"""
+
+# Example of using the characters and the boss
+player_warrior = Warrior("Player Warrior")
+player_mage = Mage("Player Mage")
+player_archer = Archer("Player Archer")
+player_sniper = Sniper("Player Sniper")
+evil_boss = Boss("Evil Boss", health=200, attack=40, defense=25, special_ability="Dark Fireball")
+
+# Players attack the boss
+print(player_warrior.special_move(evil_boss))
+print(player_mage.special_move(evil_boss))
+print(player_archer.special_move(evil_boss))
+print(player_sniper.snipe(evil_boss))
+
+# Boss uses special ability
+boss_ability_result = evil_boss.use_special_ability(player_warrior)
+print(boss_ability_result)
+"""
+
+# Combining everything
+combined_representation = scratch_sheets + animation + code_snippet
+print(combined_representation)
