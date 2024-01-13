@@ -31,3 +31,42 @@ google-services.json
 
 # Android Profiling
 *.hprof
+class Warrior(Character):
+    def __init__(self, name):
+        super().__init__(name, health=120, attack=25, defense=15)
+
+    def display_sprite(self):
+        return r"""
+        ⚔️ WARRIOR ⚔️
+        ヽ(＾Д＾)ﾉ
+        /     \
+        |  ●  ●  |
+        |   ∆    |
+        \______/
+        """
+
+class Mage(Character):
+    def __init__(self, name):
+        super().__init__(name, health=80, attack=30, defense=10)
+
+    def display_sprite(self):
+        return r"""
+        🧙 MAGE 🧙
+        (  ^_^)
+        /(     )\
+        (  ☄️ ☄️  )
+        \______/
+        """
+
+class Archer(Character):
+    def __init__(self, name):
+        super().__init__(name, health=100, attack=20, defense=20)
+
+    def display_sprite(self):
+        return r"""
+        🏹 ARCHER 🏹
+        ＼(^o^)／
+        (   |   )
+        (  / \  )
+        \______/
+        """
