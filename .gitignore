@@ -199,3 +199,5 @@ print(boss_ability_result)
 # Combining everything
 combined_representation = scratch_sheets + animation + code_snippet
 print(combined_representation)
+cd path/to/your/directory
+git clone https://github.com/your-username/your-repository.git
